@@ -13,10 +13,19 @@ def g_cost(node):
     return node[0] - node[1]
 
 
+# Manhattan Heuristic cost calculation
 def h_cost(node_1, node_2):
     x1, y1 = node_1
     x2, y2 = node_2
     return abs(x2 - x1) + abs(y2 - y1)
+
+
+# Helper function just to print out another txt file that shows all the nodes expanded by A*
+def create_sol(v_path):
+    temp_maze = maze
+    for tup in v_path:
+        temp_maze[tup[0]][tup[1]] = 99
+    np.savetxt("sol_Maze.txt", temp_maze, fmt="%4d")
 
 
 def a_star(start_point, end_point):
@@ -43,12 +52,13 @@ def a_star(start_point, end_point):
             print(curr[2])
             print(new_ep)
             print("YES")
+            create_sol(v_nodes)
             found_flag = True
             break
 
         # right neighbour
         if curr[2][1] + 1 < collumns:
-            if maze[curr[2][0]][curr[2][1] + 1] == 1:
+            if maze[curr[2][0]][curr[2][1] + 1] == 0:
                 if (curr[2][0], curr[2][1] + 1) not in v_nodes:
                     # print("right")
                     r_gcost = g_cost(curr) + 1
@@ -59,7 +69,7 @@ def a_star(start_point, end_point):
 
         # left neighbour
         if curr[2][1] - 1 >= 0:
-            if maze[curr[2][0]][curr[2][1] - 1] == 1:
+            if maze[curr[2][0]][curr[2][1] - 1] == 0:
                 if (curr[2][0], curr[2][1] - 1) not in v_nodes:
                     # print(maze[curr[2][0]][curr[2][1] - 1])
                     # print("left")
@@ -71,7 +81,7 @@ def a_star(start_point, end_point):
 
         # up neighbour
         if curr[2][0] - 1 >= 0:
-            if maze[curr[2][0] - 1][curr[2][1]] == 1:
+            if maze[curr[2][0] - 1][curr[2][1]] == 0:
                 if (curr[2][0] - 1, curr[2][1]) not in v_nodes:
                     u_gcost = g_cost(curr) + 1
                     u_fcost = h_cost(new_ep, (curr[2][0] - 1, curr[2][1])) + u_gcost
@@ -81,7 +91,7 @@ def a_star(start_point, end_point):
 
         # down neighbour
         if curr[2][0] + 1 < rows:
-            if maze[curr[2][0] + 1][curr[2][1]] == 1:
+            if maze[curr[2][0] + 1][curr[2][1]] == 0:
                 if (curr[2][0] + 1, curr[2][1]) not in v_nodes:
                     d_gcost = g_cost(curr) + 1
                     d_fcost = h_cost(new_ep, (curr[2][0] + 1, curr[2][1])) + d_gcost
@@ -93,4 +103,5 @@ def a_star(start_point, end_point):
         print("NO")
 
 
-a_star((0, 0), (78, 60))
+# Call program providing start and end points
+a_star((1, 75), (39, 40))
