@@ -49,10 +49,10 @@ def a_star(start_point, end_point):
         # print(curr[2])
 
         if curr[2] == new_ep:
-            print(curr[2])
-            print(new_ep)
+            # print(curr[2])
+            # print(new_ep)
             print("YES")
-            create_sol(v_nodes)
+            # create_sol(v_nodes)
             found_flag = True
             break
 
@@ -104,4 +104,4 @@ def a_star(start_point, end_point):
 
 
 # Call program providing start and end points
-a_star((1, 75), (39, 40))
+a_star((1, 34), (15, 47))
